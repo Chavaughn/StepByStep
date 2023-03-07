@@ -1,29 +1,57 @@
 {% extends "base.html" %} {% block css %}{% endblock %} {% block main %}
 <div></div>
-<h1 class="display-5 fw-bold">Sign Up</h1>
+<h1 class="display-5 fw-bold">Parent Sign Up</h1>
 <form method="POST">
     {{ form.csrf_token }}
-    <div class="mb-3">
-        {{ form.username.label }} {{ form.username(size=20, class="form-control") }} {% for error in form.username.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
-        {% endfor %}
+    <div class="row col-md-8">
+        <div class="col-md-12">
+            {{ form.username.label }} {{ form.username(size=20, class="form-control") }} {% for error in form.username.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
+        <div class="col-md-6">
+            {{ form.firstname.label }} {{ form.firstname(size=20, class="form-control") }} {% for error in form.firstname.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
+        <div class="col-md-6">
+            {{ form.lastname.label }} {{ form.lastname(size=20, class="form-control") }} {% for error in form.lastname.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
+        <div class="col-md-12">
+            {{ form.email.label }} {{ form.email(size=20, class="form-control") }} {% for error in form.email.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
+        <div class="col-md-6">
+            {{ form.password.label }} {{ form.password(size=20, class="form-control") }} {% for error in form.password.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
+        <div class="col-md-6">
+            {{ form.confirm_password.label }} {{ form.confirm_password(size=20, class="form-control") }} {% for error in form.confirm_password.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
+        <div class="col-md-4">
+            {{ form.date_of_birth.label }} {{ form.date_of_birth(size=20, class="form-control") }} {% for error in form.date_of_birth.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+            <br>
+        </div>
     </div>
-    <div class="mb-3">
-        {{ form.email.label }} {{ form.email(size=20, class="form-control") }} {% for error in form.email.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
-        {% endfor %}
+    <div class="row">
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+        <p class="mt-3 text-center">Already have an account? <a href="{{ url_for('login') }}">Login!</a></p>
     </div>
-    <div class="mb-3">
-        {{ form.password.label }} {{ form.password(size=20, class="form-control") }} {% for error in form.password.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
-        {% endfor %}
-    </div>
-    <div class="mb-3">
-        {{ form.confirm_password.label }} {{ form.confirm_password(size=20, class="form-control") }} {% for error in form.confirm_password.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
-        {% endfor %}
-    </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
-    <a href="{{ url_for('login') }}" class="btn btn-secondary">Log In</a>
 </form>
 {% endblock %}

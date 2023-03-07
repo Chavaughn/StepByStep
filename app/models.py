@@ -14,12 +14,15 @@ class UserProfile(db.Model):
     last_name = db.Column(db.String(80))
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(128))
+    user_type = db.Column(db.Integer)
 
-    def __init__(self, first_name, last_name, username, password):
+    def __init__(self, first_name, last_name, username, password, usertype):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
         self.password = generate_password_hash(password, method='pbkdf2:sha256')
+        self.user_type = usertype
+
 
     def is_authenticated(self):
         return True
@@ -32,9 +35,12 @@ class UserProfile(db.Model):
 
     def get_id(self):
         try:
-            return unicode(self.id)  # python 2 support
+            return self.id  # python 2 support
         except NameError:
-            return str(self.id)  # python 3 support
+            return self.id  # python 3 support
+
+    def get_usertype(self):
+        return self.user_type
 
     def __repr__(self):
         return '<User %r>' % (self.username)
@@ -56,13 +62,13 @@ class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    
 class Parent(db.Model):
     __tablename__ = 'parents'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(80))
     date_of_birth = db.Column(db.Date)
     email = db.Column(db.String(120))
+    user_profile_id = db.Column(db.Integer, db.ForeignKey('user_profiles.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 class Student(db.Model):
@@ -73,6 +79,7 @@ class Student(db.Model):
     date_of_birth = db.Column(db.Date)
     email = db.Column(db.String(120))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    student_status = db.Column(db.Integer)
 
 class Class(db.Model):
     __tablename__ = 'classes'

@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block css %} {% endblock %} {% block main %}
+<div class="dashboard-header">
+    <h1 class="display-5 fw-bold">Your Child</h1>
+    <hr>
+</div>
+
+{% if student %}
+<div>
+    <p>First Name: {{ student.first_name }}</p>
+    <p>Last Name: {{ student.last_name }}</p>
+    <p>Date of Birth: {{ student.date_of_birth }}</p>
+    <p>Email: {{ student.email }}</p>
+    <p>Class Name: {{ student.class_id }}</p>
+    <p>Student Status: {{ student.student_status }}</p>
+</div>
+{% else %}
+<p>Student does not exist.</p>
+<button class="btn btn-primary"><a class="add" href="{{ url_for('addstudent') }}">Add Student</a></button> {% endif %} {% endblock %} {% block js %} {% endblock %}

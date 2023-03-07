@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block css %} {% endblock %} {% block main %}
+<div class="dashboard-header">
+    <h1 class="display-5 fw-bold">Parent Dashboard</h1>
+    <hr> {% if student %}
+    <p>Child's Name: {{ student.first_name }} {{ student.last_name }}</p>
+    <p>GPA: undefined</p>
+    <p>Class: {{ student_class}}</p>
+    {% else %}
+    <p>Currently no registered children</p>
+</div>
+{% endif %} {% endblock %} {% block js %} {% endblock %}

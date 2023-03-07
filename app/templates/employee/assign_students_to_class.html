@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block css %}
+<!-- Add any custom CSS here -->
+{% endblock %} {% block main %}
+<div class="dashboard-header">
+    <h1 class="display-5 fw-bold">Assign Student</h1>
+    <hr>
+</div>
+
+<div class="container">
+    <form method="POST">
+
+        <div class="form-group">
+            <label for="student">Select a student:</label>
+            <select class="form-control" id="student" name="student">
+                {% for student in students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="class">Select a Class:</label>
+            <select class="form-control" id="class" name="class">
+                {% for class in classes %}
+                <option value="{{ class.id }}">{{ class.class_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %} {% block js %}
+<!-- Add any custom JavaScript here -->
+{% endblock %}
