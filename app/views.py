@@ -25,8 +25,12 @@ def landing():
 @login_required
 def dashboard():
     if current_user.user_type == 2:
-        student, student_class = load_child(current_user.get_id())
-        print(student_class)
+        result = load_child(current_user.get_id())
+        if result == None:
+            result = load_child_no_class(current_user.get_id())
+            if result == None:
+                return render_template('parent_dashboard.html', user=current_user, student=None)
+        student, student_class = result
         if student is None:
             return render_template('parent_dashboard.html', user=current_user, student=None)
         return render_template('parent_dashboard.html', user=current_user, student=student, student_class=student_class)
@@ -80,16 +84,16 @@ def addstudent():
     form = AddStudentForm()
     if form.validate_on_submit():
         # process the form data and add the student to the database
-        new_student = Student(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            date_of_birth=form.date_of_birth.data,
-            email=form.email.data,
-        )
         try:
+            new_student = Student(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                date_of_birth=form.date_of_birth.data,
+                email=form.email.data,
+            )
             db.session.add(new_student)
+            db.session.commit()
             parent = Parent.query.filter_by(user_profile_id=current_user.id).first()
-            print(current_user.id)
             if parent:
                 parent.student_id = new_student.id
                 db.session.add(parent)
@@ -196,7 +200,13 @@ def load_child(user_profile_id):
         filter(Parent.user_profile_id == user_profile_id).\
         filter(Student.id == Parent.student_id).\
         first()
-
+def load_child_no_class(user_profile_id):
+    return db.session.query(Student, Class.class_name).\
+        select_from(Student).\
+        join(Parent).\
+        filter(Parent.user_profile_id == user_profile_id).\
+        filter(Student.id == Parent.student_id).\
+        first()
 
 def load_employee(user_profile_id):
     return db.session.query(Employee).\
