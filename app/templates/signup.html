@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block css %}{% endblock %} {% block main %}
+<div></div>
+<h1 class="display-5 fw-bold">Sign Up</h1>
+<form method="POST">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+        {{ form.username.label }} {{ form.username(size=20, class="form-control") }} {% for error in form.username.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.email.label }} {{ form.email(size=20, class="form-control") }} {% for error in form.email.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.password.label }} {{ form.password(size=20, class="form-control") }} {% for error in form.password.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.confirm_password.label }} {{ form.confirm_password(size=20, class="form-control") }} {% for error in form.confirm_password.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <a href="{{ url_for('login') }}" class="btn btn-secondary">Log In</a>
+</form>
+{% endblock %}

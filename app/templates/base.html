@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Step By Step Pre-School OODI Demo</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/app.css"> {% block css %} {% endblock%}
+</head>
+
+<body>
+    <header>
+    </header>
+    <main>
+        <div class="sidebar-box">
+            {% include "sidenav.html" %}
+        </div>
+        <div class="content-box">
+            {% include "header.html" %}
+            <div class="main-content">
+                <div class="content-box-border">
+                    {% include 'flash_messages.html' %} {% block main %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            {% include "footer.html" %}
+        </div>
+    </footer>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    {% block js %} {% endblock%}
+</body>
+
+</html>
