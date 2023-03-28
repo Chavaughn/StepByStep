@@ -1,7 +1,7 @@
 import datetime
 import random
 from app import db
-from app.models import Teacher, UserProfile, Employee, Admin, Parent, Student, Class, Assignment, Subject, Grades
+from app.models import Teacher, UserProfile, Employee, Admin, Parent, Student, Room, Assignment, Subject, Grades
 from datetime import date, datetime, timedelta
 
 # Create user profiles
@@ -39,16 +39,16 @@ admin = Admin(employee_id=employee0.id, admin_role=1)
 db.session.add(admin)
 db.session.commit()
 
-# Create some classes
-class1 = Class(class_name='Strawberry Heroes')
-class2 = Class(class_name='Banana Fighters')
-class3 = Class(class_name='Peach Warriors')
+# Create some rooms
+class1 = Room(class_name='Strawberry Heroes')
+class2 = Room(class_name='Banana Fighters')
+class3 = Room(class_name='Peach Warriors')
 db.session.add(class1)
 db.session.add(class2)
 db.session.add(class3)
 db.session.commit()
 
-# Create teachers and link to employee and classes
+# Create teachers and link to employee and rooms
 teacher1 = Teacher(employee_id=employee1.id, class_id=1)
 teacher2 = Teacher(employee_id=employee2.id, class_id=2)
 teacher3 = Teacher(employee_id=employee3.id, class_id=3)
@@ -66,7 +66,7 @@ db.session.add(parent2)
 db.session.add(parent3)
 db.session.commit()
 
-# Create students and link to classes
+# Create students and link to rooms
 student1 = Student(first_name='John', last_name='Doe', date_of_birth=date(2020, 1, 1), email='john.doe@example.com', class_id=class1.id, student_status=1, parent_id = parent1.id)
 student2 = Student(first_name='Jane', last_name='Smith', date_of_birth=date(2019, 2, 2), email='jane.smith@example.com', class_id=class2.id, student_status=1, parent_id = parent2.id)
 student3 = Student(first_name='Sarah', last_name='Johnson', date_of_birth=date(2020, 3, 3), email='sarah.johnson@example.com', class_id=class1.id, student_status=1, parent_id = parent3.id)
@@ -110,8 +110,8 @@ db.session.add(grade3)
 db.session.add(grade4)
 db.session.commit()
 
-# Get a list of all classes in the database
-classes = Class.query.all()
+# Get a list of all rooms in the database
+rooms = Room.query.all()
 
 # Get a list of all parents in the database
 parents = Parent.query.all()
@@ -120,7 +120,7 @@ parents = Parent.query.all()
 for i in range(20):
     first_name = f"Student_{i+1}"
     last_name = "Lastname"
-    class_id = random.choice(classes).id
+    class_id = random.choice(rooms).id
     parent_id = random.choice(parents).id
     date_of_birth = datetime.now() - timedelta(days=random.randint(365*3, 365*6))
     email = f"student_{i+1}@example.com"
@@ -135,7 +135,7 @@ for subject in subjects:
         assignment_name = f"{subject.subject_name}-Assignment{i+1}"
         assignment_details = f"{subject.subject_name}-Assignment{i+1} Details"
         max_grade = random.randint(10, 100)
-        class_id = random.choice(classes).id
+        class_id = random.choice(rooms).id
         assignment = Assignment(assignment_name=assignment_name,assignment_details=assignment_details, subject_id=subject.id,class_id=class_id, max_grade=max_grade)
         db.session.add(assignment)
         db.session.commit()

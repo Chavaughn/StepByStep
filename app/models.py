@@ -82,7 +82,7 @@ class Student(db.Model):
         avg_grade = grades.with_entities(db.func.avg(Grades.grade)).scalar()
         return round(avg_grade, 2) if avg_grade else 0.00
 
-class Class(db.Model):
+class Room(db.Model):
     __tablename__ = 'classes'
     id = db.Column(db.Integer, primary_key=True)
     class_name = db.Column(db.String(80))

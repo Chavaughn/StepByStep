@@ -11,7 +11,7 @@ from app import app, db, login_manager
 from flask import render_template, request, redirect, send_from_directory, url_for, flash, session, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
-from app.models import Admin, Assignment, Class, Employee, Grades, Parent, Student, Subject, Teacher, UserProfile
+from app.models import Admin, Assignment, Room, Employee, Grades, Parent, Student, Subject, Teacher, UserProfile
 from app.forms import AddStudentForm, LoginForm, SignupForm
 from werkzeug.security import check_password_hash
 from app.controllers.AppController import *
@@ -59,7 +59,7 @@ def dashboard():
             return render_template('404.html'), 404
         elif admin_info:
             return render_template('/employee/employee_dashboard.html', teacher=admin, teacher_info=admin_info)
-        teacher_class = Class.query.filter_by(id=teacher_info.class_id).first()
+        teacher_class = Room.query.filter_by(id=teacher_info.class_id).first()
         student_count = len(Student.query.filter_by(class_id=teacher_info.class_id).all())
         # Get student information for the teacher's class
         students = Student.query.filter_by(class_id=teacher_info.class_id).all()
@@ -100,7 +100,7 @@ def assign_students_to_class():
     if current_user.user_type == 1 or (current_user.user_type == 2 and current_user.employee.role == 2):
         # Only admins or teachers can access this page
         students = Student.query.all()
-        classes = Class.query.all()
+        rooms = Room.query.all()
         if request.method == 'POST':
             try:
                 student_id = request.form.get('student')
@@ -113,7 +113,7 @@ def assign_students_to_class():
             except Exception as e:
                 flash(f'An error occurred: {str(e)}', 'danger')
                 db.session.rollback()
-        return render_template('employee/assign_students_to_class.html', students=students, classes=classes)
+        return render_template('employee/assign_students_to_class.html', students=students, rooms=rooms)
     else:
         # Redirect to unauthorized page if user does not have permission
         return redirect(url_for('unauthorized'))
