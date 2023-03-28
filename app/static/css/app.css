@@ -1,12 +1,23 @@
     body {
         /*padding-top: 5rem;*/
         background-color: rgb(248, 249, 250);
+        height: 100%;
     }
     
     main {
         display: flex;
         flex-direction: row;
-        height: 90vh;
+        min-height: 90vh;
+    }
+    
+    .true-body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .red {
+        color: red!important;
     }
     
     .btn-primary {
@@ -48,15 +59,19 @@
     }
     
     .sidebar-nav {
-        height: 100vh;
+        height: 100%;
         align-content: flex-start;
         padding-left: 1vw;
         padding-right: 0.5vw;
+        background-color: #181818;
+        min-height: 100vh;
     }
     
     .form-login {
         max-width: 330px;
+        min-width: 30vw;
         padding: 15px;
+        text-align: center;
     }
     
     .form-login input[type="text"] {

@@ -3,10 +3,6 @@ from werkzeug.security import generate_password_hash
 
 
 class UserProfile(db.Model):
-    # You can use this to change the table name. The default convention is to use
-    # the class name. In this case a class name of UserProfile would create a
-    # user_profile (singular) table, but if we specify __tablename__ we can change it
-    # to `user_profiles` (plural) or some other name.
     __tablename__ = 'user_profiles'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +65,6 @@ class Parent(db.Model):
     date_of_birth = db.Column(db.Date)
     email = db.Column(db.String(120))
     user_profile_id = db.Column(db.Integer, db.ForeignKey('user_profiles.id'))
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 class Student(db.Model):
     __tablename__ = 'students'
@@ -80,12 +75,32 @@ class Student(db.Model):
     email = db.Column(db.String(120))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     student_status = db.Column(db.Integer)
+    parent_id = db.Column(db.Integer, db.ForeignKey('parents.id'))
+
+    def get_average_grade_for_subject(self, subject_id):
+        grades = Grades.query.filter_by(student_id=self.id).join(Assignment).filter_by(subject_id=subject_id)
+        avg_grade = grades.with_entities(db.func.avg(Grades.grade)).scalar()
+        return round(avg_grade, 2) if avg_grade else 0.00
 
 class Class(db.Model):
     __tablename__ = 'classes'
     id = db.Column(db.Integer, primary_key=True)
     class_name = db.Column(db.String(80))
 
+class Assignment(db.Model):
+    __tablename__ = 'assignments'
+    id = db.Column(db.Integer, primary_key=True)
+    assignment_name = db.Column(db.String(80))
+    assignment_details = db.Column(db.String(8000))
+    max_grade = db.Column(db.Float)
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
+
+class Subject(db.Model):
+    __tablename__ = 'subjects'
+    id = db.Column(db.Integer, primary_key=True)
+    subject_name = db.Column(db.String(80))
+    
 class Grades(db.Model):
     __tablename__ = 'grades'
     id = db.Column(db.Integer, primary_key=True)
@@ -93,8 +108,4 @@ class Grades(db.Model):
     assignment_id = db.Column(db.Integer, db.ForeignKey('assignments.id'))
     grade = db.Column(db.Float)
 
-class Assignment(db.Model):
-    __tablename__ = 'assignments'
-    id = db.Column(db.Integer, primary_key=True)
-    assignment_name = db.Column(db.String(80))
 
