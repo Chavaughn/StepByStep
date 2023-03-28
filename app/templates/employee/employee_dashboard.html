@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block css %} {% endblock %} {% block main %}
+<div class="dashboard-header">
+    {% if teacher.user_type == 1 %}
+    <h1 class="display-5 fw-bold">Admin Dashboard</h1>
+    <hr>
+    <p>Position: Admin</p>
+    <p>Role: {%if teacher_info.admin_role == 1%} Senior Admin {% else %} Junior Admin {% endif %}</p>
+    <div class="row mt-3">
+        <div class="col-sm-6">
+            <a href="{{ url_for('assign_students_to_class') }}" class="btn btn-primary">
+                Assign Students to Class
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <h1 class="display-5 fw-bold">Teacher Dashboard</h1>
+    <hr>
+    <p>Position: Teacher</p>
+    <p>Class Name: {{ teacher_class.class_name }}</p>
+    <p>Number of Students: {{ student_count }}</p>
+    {% endif %}
+</div>
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <table class="table table-striped table-hover table-bordered">
+            <caption>Students you teach!</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th>Student Name</th>
+                    {% for subject in subjects %}
+                    <th>{{ subject.subject_name }} Average Grade</th>
+                    {% endfor %}
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.first_name }} {{ student.last_name }}</td>
+                    {% for subject in subjects %}
+                    <td>{{ student.get_average_grade_for_subject(subject.id) }}</td>
+                    {% endfor %}
+                    <td><a href="{{ url_for('assign_students_to_class') }}" class="btn btn-primary">View Student</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %} {% block js %} {% endblock %}
