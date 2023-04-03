@@ -5,13 +5,7 @@
     <hr>
     <p>Position: Admin</p>
     <p>Role: {%if teacher_info.admin_role == 1%} Senior Admin {% else %} Junior Admin {% endif %}</p>
-    <div class="row mt-3">
-        <div class="col-sm-6">
-            <a href="{{ url_for('assign_students_to_class') }}" class="btn btn-primary">
-                Assign Students to Class
-            </a>
-        </div>
-    </div>
+
     {% else %}
     <h1 class="display-5 fw-bold">Teacher Dashboard</h1>
     <hr>
@@ -20,9 +14,9 @@
     <p>Number of Students: {{ student_count }}</p>
     {% endif %}
 </div>
-
+{% if teacher.user_type == 2 %}
 <div class="row mt-3">
-    <div class="col-sm-12">
+    <div class="col-sm-12 ">
         <table class="student-table table table-striped table-hover">
             <caption>Students you teach!</caption>
             <thead class="thead-dark">
@@ -42,8 +36,8 @@
                     <td>{{ student.get_average_grade_for_subject(subject.id) }}</td>
                     {% endfor %}
                     <td>
-                        <a href="{{ url_for('view_student', student_id=student.id) }}" class="btn btn-primary">View Student</a>
-                        <a href="#" class="btn btn-info">Report</a>
+                        <a href="{{ url_for('view_student_teacher', student_id=student.id) }}" class="btn btn-primary">View Student</a>
+                        <a href="{{ url_for('generate_report', student_id=student.id) }}" class="btn btn-info">Report</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -51,4 +45,107 @@
         </table>
     </div>
 </div>
-{% endblock %} {% block js %} {% endblock %}
+{% endif %} {% if teacher.user_type == 1 %}
+<div class="row mt-3">
+    <div class="table-title col-sm-12">
+        <div class="row">
+            <div class="col-sm-2">
+                <h4>User Table</h4>
+            </div>
+            <div class="col-sm-10">
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 table-holder">
+        <table class="user-table table table-striped table-hover">
+            <caption>Users in the system!</caption>
+            <thead class="thead-dark ">
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>User Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }} </td>
+                    <td>{{ user.first_name }} </td>
+                    <td>{{ user.last_name }}</td>
+                    {% if user.user_type == 1 %}
+                    <td>Admin</td>
+                    {% elif user.user_type == 2 %}
+                    <td>Teacher</td>
+                    {% elif user.user_type == 3 %}
+                    <td>Parent</td>
+                    {% else %}
+                    <td>Undefined User Type</td>
+                    {% endif %}
+                    <td>
+                        <a href="{{ url_for('edit_user', id=user.id) }}" class=" btn btn-info ">Edit User</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-title col-sm-12">
+        <div class="row">
+            <div class="col-sm-2">
+                <br>
+                <br>
+                <h4>Student Table</h4>
+            </div>
+            <div class="col-sm-10">
+                <br>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="{{ url_for('addstudent') }}" class="btn btn-primary">
+                        Add Student
+                    </a>&nbsp;
+                <a href="{{ url_for('assign_students_to_class') }}" class="btn btn-warning">
+                            Assign Students to Class
+                        </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 table-holder">
+        <br>
+        <table class="student-table table table-striped table-hover">
+            <caption>Students in the system!</caption>
+            <thead class="thead-dark ">
+                <tr>
+                    <th>Parent Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Class</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.parent.user_profile.first_name }} {{ student.parent.user_profile.last_name }}</td>
+                    <td>{{ student.first_name }} </td>
+                    <td>{{ student.last_name }}</td>
+                    <td>{{ student.date_of_birth }}</td>
+                    <td>{{ student.room.class_name }}</td>
+                    <td>
+                        <a href="{{ url_for('view_student', id=student.id) }}" class=" btn btn-info ">View Student</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div> {% endif %}{% endblock %} {% block js %} {% endblock %}

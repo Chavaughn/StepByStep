@@ -72,6 +72,43 @@
         padding: 3rem;
     }
     
+    .table-holder {
+        max-height: 40vh;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+    
+    .table-title hr {
+        border-top: 1px solid #000000
+    }
+    
+    .table-grades thead {
+        position: sticky;
+        top: 0;
+        background-color: #212529;
+        color: rgb(255, 255, 255);
+    }
+    
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color .3s;
+        margin: 0 4px;
+    }
+    
+    .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+    
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+    
     .sidebar-nav {
         height: 100%;
         align-content: flex-start;
