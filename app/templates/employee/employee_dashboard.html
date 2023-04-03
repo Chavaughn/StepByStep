@@ -141,7 +141,8 @@
                     <td>{{ student.date_of_birth }}</td>
                     <td>{{ student.room.class_name }}</td>
                     <td>
-                        <a href="{{ url_for('view_student', id=student.id) }}" class=" btn btn-info ">View Student</a>
+                        <a href="{{ url_for('view_student', id=student.id) }}" class=" btn btn-primary ">View Student</a>
+                        <a href="{{ url_for('generate_report', student_id=student.id) }}" class="btn btn-info">Report</a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -123,35 +123,39 @@ rooms = Room.query.all()
 
 # Get a list of all parents in the database
 parents = Parent.query.all()
-days_offset = random.randint(365*3, 365*13)
+days_offset = random.randint(365*0, 365*6)
+days_offset_archive = random.randint(365*6, 365*7)
 
 
 
-# Generate and add 20 random students to the database
+# Generate and add 20 random students to the database with age 1-4 and joined within age 7
 for i in range(20):
     first_name = random.choice(first_names)
     last_name = random.choice(last_names)
     class_id = random.choice(rooms).id
     parent_id = random.choice(parents).id
-    date_of_birth = datetime.now() - timedelta(days=random.randint(365*3, 365*6))
-    date_joined = datetime.now() + timedelta(days=days_offset)
+    age = random.randint(1, 4)
+    date_of_birth = datetime.now() - timedelta(days=random.randint(365*age, 365*(age+1)))
+    date_joined = date_of_birth + timedelta(days=random.randint(365*1, 365*3))
     email = f"student_{i+1}@example.com"
     student = Student(first_name=first_name, last_name=last_name, class_id=class_id, parent_id=parent_id, date_of_birth=date_of_birth, email=email, student_status=1, date_joined=date_joined)
     db.session.add(student)
     db.session.commit()
 
-# Generate and add 40 random archived students to the database
+# Generate and add 40 random archived students to the database with age >= 7 and joined within age >= 8
 for i in range(40):
     first_name = random.choice(first_names)
     last_name = random.choice(last_names)
     class_id = random.choice(rooms).id
     parent_id = random.choice(parents).id
-    date_of_birth = datetime.now() - timedelta(days=random.randint(365*3, 365*6))
-    date_joined = date_of_birth - timedelta(days=random.randint(365*7, 365*13))
+    age = random.randint(7, 12)
+    date_joined = datetime.now() - timedelta(days=random.randint(365*(age+1), 365*(age+2)))
+    date_of_birth = date_joined - timedelta(days=random.randint(365*(age), 365*(age+1)))
     email = f"archived_{i+1}@example.com"
     student = Student(first_name=first_name, last_name=last_name, class_id=class_id, parent_id=parent_id, date_of_birth=date_of_birth, email=email, student_status=2, date_joined=date_joined)
     db.session.add(student)
     db.session.commit()
+
 
 
 subjects = Subject.query.all()
