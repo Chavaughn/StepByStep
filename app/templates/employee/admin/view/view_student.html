@@ -8,8 +8,11 @@
                         <div class="col">
                             <h4 class="card-title">{{ student.first_name }} {{ student.last_name }}</h4>
                         </div>
+                        {% if current_user.user_type == 1 %}
                         <div class="col">
+                            <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-primary float-right">Edit</a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
@@ -30,8 +33,16 @@
                         <dt class="col-sm-3">Status:</dt>
                         <dd class="col-sm-9">{{ "Active" if student.student_status else "Inactive" }}</dd>
                     </dl>
-
-                    <h5 class="card-subtitle mb-2 mt-5 text-muted">Grades</h5>
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-subtitle mb-2 mt-5 text-muted">Grades</h5>
+                        </div>
+                        {% if current_user.user_type == 2 %}
+                        <div class="col" style="align-self: center;">
+                            <a href="{{ url_for('edit_grades', id=student.id) }}" class="btn btn-primary float-right">Edit</a>
+                        </div>
+                        {% endif %}
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>

@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block css %} {% endblock %} {% block main %}
+<div class="container">
+    <h1>Archived Students</h1>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Email</th>
+                <th>Date Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.first_name }}</td>
+                <td>{{ student.last_name }}</td>
+                <td>{{ student.date_of_birth }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.date_joined }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} {% block js %} {% endblock %}

@@ -19,7 +19,7 @@
             <br>
             <label for="class">Select a Class:</label>
             <select class="form-control" id="class" name="class">
-                {% for class in classes %}
+                {% for class in rooms %}
                 <option value="{{ class.id }}">{{ class.class_name }}</option>
                 {% endfor %}
             </select>

@@ -7,13 +7,19 @@
             <li class="nav-item">
                 <a class="nav-link active" href="{{ url_for('dashboard') }}">Dashboard</a>
             </li>
-            {% if current_user.user_type == 2 %}
+            {% if current_user.user_type == 1 %}
             <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('viewstudentparent') }}">Your Child</a>
+                <a class="nav-link " href="{{ url_for('addstudent') }}">Add Student</a>
+            </li>
+            <li class=" nav-item ">
+                <a class="nav-link" href="{{ url_for( 'assign_students_to_class') }} ">Assign Students to Class</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link " href="{{ url_for( 'archived_students') }} ">Archived Students</a>
             </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+            <li class="nav-item ">
+                <a class="nav-link " href="{{ url_for( 'about') }} ">About</a>
             </li>
         </ul>
     </div>
