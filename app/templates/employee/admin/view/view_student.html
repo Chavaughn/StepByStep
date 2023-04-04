@@ -8,11 +8,20 @@
                         <div class="col">
                             <h4 class="card-title">{{ student.first_name }} {{ student.last_name }}</h4>
                         </div>
+
                         {% if current_user.user_type == 1 %}
-                        <div class="col">
-                            <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-primary float-right">Edit</a>
+                        <div class="col-auto">
+                            <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-primary mx-1">Edit</a>
                         </div>
-                        {% endif %}
+                        {% if student.student_status == 1 %}
+                        <div class="col-auto">
+                            <a href="{{ url_for('archive_student', id=student.id) }}" class="btn btn-warning mx-1">Archive</a>
+                        </div>
+                        {% else %}
+                        <div class="col-auto">
+                            <a href="{{ url_for('unarchive_student', id=student.id) }}" class="btn btn-danger mx-1">Unarchive</a>
+                        </div>
+                        {% endif %} {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
@@ -30,8 +39,11 @@
                         <dt class="col-sm-3">Parent:</dt>
                         <dd class="col-sm-9">{{ student.parent.user_profile.full_name }}</dd>
 
+                        <dt class="col-sm-3">Date Joined:</dt>
+                        <dd class="col-sm-9">{{ student.date_joined }}</dd>
+
                         <dt class="col-sm-3">Status:</dt>
-                        <dd class="col-sm-9">{{ "Active" if student.student_status else "Inactive" }}</dd>
+                        <dd class="col-sm-9">{{ "Active" if student.student_status == 1 else "Inactive" }}</dd>
                     </dl>
                     <div class="row">
                         <div class="col">

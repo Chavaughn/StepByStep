@@ -27,8 +27,11 @@
                         <dt class="col-sm-3">Parent:</dt>
                         <dd class="col-sm-9">{{ student.parent.user_profile.full_name }}</dd>
 
+                        <dt class="col-sm-3">Date Joined:</dt>
+                        <dd class="col-sm-9">{{ student.date_joined }}</dd>
+
                         <dt class="col-sm-3">Status:</dt>
-                        <dd class="col-sm-9">{{ "Active" if student.student_status else "Inactive" }}</dd>
+                        <dd class="col-sm-9">{{ "Active" if student.student_status == 1 else "Inactive" }}</dd>
                     </dl>
 
                     <h5 class="card-subtitle mb-2 mt-5 text-muted">Grades</h5>

@@ -9,6 +9,7 @@
                 <th>Date of Birth</th>
                 <th>Email</th>
                 <th>Date Joined</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,9 @@
                 <td>{{ student.date_of_birth }}</td>
                 <td>{{ student.email }}</td>
                 <td>{{ student.date_joined }}</td>
+                <td>
+                    <a href="{{ url_for('view_student', id=student.id) }}" class=" btn btn-primary ">View Student</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

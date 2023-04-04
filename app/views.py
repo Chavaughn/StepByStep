@@ -32,7 +32,6 @@ def dashboard():
         parent = Parent.query.filter_by(user_profile_id = current_user.id).first()
         children = Student.query.filter_by(parent_id=parent.id).filter(Student.student_status != 2).join(Room).all()
         pdata= [{'Parent_Data': parent},{'Child_Data':children }]
-        print(pdata)
         return render_template('parent_dashboard.html', pdata = pdata, count = len(children))
     elif current_user.user_type == 1 or current_user.user_type == 2: 
         teacher = UserProfile.query.filter_by(id=current_user.id, user_type=2).first()
