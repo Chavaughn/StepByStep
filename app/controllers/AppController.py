@@ -109,10 +109,10 @@ def update_old_students():
     return 'Old students updated'
 
 @app.route('/drop_db')
-@login_required
+#@login_required
 def drop_database():
     try:
-        logout_user()
+        #logout_user()
         engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
         Session = sessionmaker(bind=engine)
         session = Session()

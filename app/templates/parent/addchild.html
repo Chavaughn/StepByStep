@@ -23,7 +23,7 @@
                     {{ form.date_of_birth.label(class="form-label") }} {{ form.date_of_birth(class="form-control") }}
                 </div>
                 <div class="col-md-6">
-                    {{ form.class_id.label }}{{ form.class_id(class='form-control') }}
+                    {{ form.class_id.label(hidden = True) }}{{ form.class_id(class='form-control', value=4, hidden=True) }}
                 </div>
             </div>
         </div>

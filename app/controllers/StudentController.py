@@ -32,7 +32,7 @@ def add_student_parent():
                     date_of_birth=form.date_of_birth.data,
                     email=form.email.data,
                     parent_id = parent.id,
-                    class_id = form.class_id.data,
+                    class_id = 4,
                     date_joined = datetime.now(),
                     student_status = 1
                 )
