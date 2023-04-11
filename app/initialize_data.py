@@ -51,9 +51,11 @@ db.session.commit()
 class1 = Room(class_name='Strawberry Heroes')
 class2 = Room(class_name='Banana Fighters')
 class3 = Room(class_name='Peach Warriors')
+class4 = Room(class_name='Unassigned')
 db.session.add(class1)
 db.session.add(class2)
 db.session.add(class3)
+db.session.add(class4)
 db.session.commit()
 
 # Create teachers and link to employee and rooms
@@ -159,13 +161,13 @@ for i in range(40):
 
 
 subjects = Subject.query.all()
-
+available_rooms = [room for room in rooms if room.id != 4]
 for subject in subjects:
     for i in range(5):
         assignment_name = f"{subject.subject_name}-Assignment{i+1}"
         assignment_details = f"{subject.subject_name}-Assignment{i+1} Details"
         max_grade = random.randint(10, 100)
-        class_id = random.choice(rooms).id
+        class_id = random.choice(available_rooms).id
         assignment = Assignment(assignment_name=assignment_name,assignment_details=assignment_details, subject_id=subject.id,class_id=class_id, max_grade=max_grade)
         db.session.add(assignment)
         db.session.commit()

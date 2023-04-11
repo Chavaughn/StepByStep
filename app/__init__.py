@@ -1,8 +1,8 @@
 import importlib
 import subprocess
 # Install required packages from requirements.txt
-#subprocess.call(['pip', 'install', '-r', 'requirements.txt'])
-#subprocess.call(['pip', 'install', 'reportlab'])
+# subprocess.call(['pip', 'install', '-r', 'requirements.txt'])
+# subprocess.call(['pip', 'install', 'reportlab'])
 
 
 from flask import Flask

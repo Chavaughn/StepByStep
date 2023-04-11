@@ -64,6 +64,12 @@
         padding-right: 3vw;
     }
     
+    .thead-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+    
     .content-box-border {
         background-color: #ffffff;
         border-radius: 0.5rem;

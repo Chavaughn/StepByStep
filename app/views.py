@@ -32,7 +32,6 @@ def dashboard():
         parent = Parent.query.filter_by(user_profile_id = current_user.id).first()
         children = Student.query.filter_by(parent_id=parent.id).filter(Student.student_status != 2).join(Room).all()
         pdata= [{'Parent_Data': parent},{'Child_Data':children }]
-        print(pdata)
         return render_template('parent_dashboard.html', pdata = pdata, count = len(children))
     elif current_user.user_type == 1 or current_user.user_type == 2: 
         teacher = UserProfile.query.filter_by(id=current_user.id, user_type=2).first()
@@ -57,9 +56,9 @@ def dashboard():
             users = UserProfile.query.all()
             students = Student.query.filter(Student.student_status != 2).all()
             pagination= pagenate_list(users, "Users")
-            return render_template('/employee/employee_dashboard.html', teacher=admin, teacher_info=admin_info, students = students, users = users, pagination = pagination)
+            return render_template('/employee/employee_dashboard.html', teacher=admin, teacher_info=admin_info, students = students, users = users)
         teacher_class = Room.query.filter_by(id=teacher_info.class_id).first()
-        student_count = len(Student.query.filter_by(class_id=teacher_info.class_id).filter(Student.student_status == 2).all())
+        student_count = len(Student.query.filter_by(class_id=teacher_info.class_id).filter(Student.student_status != 2).all())
         # Get student information for the teacher's class
         students = Student.query.filter_by(class_id=teacher_info.class_id).filter(Student.student_status != 2).all()
     

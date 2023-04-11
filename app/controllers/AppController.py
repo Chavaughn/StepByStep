@@ -41,6 +41,32 @@ def change_student_class(student, class_id):
         flash(f'An error occurred: {str(e)}', 'danger')
         db.session.rollback()
 
+
+def admin_check():
+    if current_user.user_type != 1:
+        flash('Undefined User Type or Operation not supported', 'danger')
+        return False
+    return True
+
+def teacher_check():
+    if current_user.user_type != 2:
+        flash('Undefined User Type or Operation not supported', 'danger')
+        return False
+    return True
+
+def employee_check():
+    if current_user.user_type != 2 and current_user.user_type != 1:
+        flash('Undefined User Type or Operation not supported', 'danger')
+        return False
+    return True
+
+def parent_check():
+    if current_user.user_type != 3:
+        flash('Undefined User Type or Operation not supported', 'danger')
+        return False
+    return True
+    
+
 def add_student(student):
     try:
         db.session.add(student)
@@ -83,10 +109,10 @@ def update_old_students():
     return 'Old students updated'
 
 @app.route('/drop_db')
-@login_required
+#@login_required
 def drop_database():
     try:
-        logout_user()
+        #logout_user()
         engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
         Session = sessionmaker(bind=engine)
         session = Session()

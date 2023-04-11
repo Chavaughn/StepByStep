@@ -11,6 +11,10 @@ from app.controllers.AppController import *
 
 @app.route('/edit_user/<int:id>', methods=['GET', 'POST'])
 def edit_user(id):
+
+    if not admin_check():
+        return redirect(url_for('landing'))
+
     user = UserProfile.query.get_or_404(id)
   
     try:
@@ -111,6 +115,8 @@ def edit_user(id):
     
 @app.route('/view_student/<int:id>')    
 def view_student(id):
+    if not employee_check():
+        return redirect(url_for('landing'))
     student = Student.query.filter_by(id = id).first()
     subjects = Subject.query.all()
     return render_template('employee/admin/view/view_student.html', student = student, subjects =subjects)
@@ -173,3 +179,32 @@ def addstudent():
             return redirect('/')
 
     return render_template('student/addstudent.html', form=form, user=current_user)
+
+
+@app.route('/archive_student/<int:id>', methods=['GET', 'POST'])    
+def archive_student(id):
+    student = Student.query.get_or_404(id)
+    date_joined = student.date_joined
+    today = datetime.now()
+
+    # Check if student has been enrolled for at least 7 years before archiving
+    if (today.date() - date_joined).days < 7 * 365:
+        flash("Student cannot be archived because they have not been enrolled for at least 7 years.","danger")
+        return redirect('/view_student/{}'.format(id))
+
+    student.student_status = 2
+    db.session.commit()
+
+    flash(f"{student.first_name} {student.last_name} has been archived.", "success")
+    return redirect('/view_student/{}'.format(id))
+
+@app.route('/unarchive_student/<int:id>', methods=['GET', 'POST'])    
+def unarchive_student(id):
+    student = Student.query.get_or_404(id)
+
+    student.student_status = 1
+    db.session.commit()
+
+    flash(f"{student.first_name} {student.last_name} has been unarchived.", "success")
+    return redirect('/view_student/{}'.format(id))
+
